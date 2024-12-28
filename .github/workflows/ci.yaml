@@ -1,0 +1,68 @@
+---
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  go-test:
+    name: Go Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+
+      - name: Run go test
+        run: go test ./...
+
+  golangci:
+    name: Go Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: v1.42.0
+
+  yamllint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Run yaml Lint
+        uses: actionshub/yamllint@main
+
+  markdownlint-cli2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Run Markdown Lint
+        uses: DavidAnson/markdownlint-cli2-action@v13
+        with:
+          globs: "**/*.md"
+
+  markdown-link-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: gaurav-nelson/github-action-markdown-link-check@1.0.15
+        with:
+          use-quiet-mode: "yes"
+          use-verbose-mode: "yes"
+          check-modified-files-only: "yes"
+          base-branch: "main"
