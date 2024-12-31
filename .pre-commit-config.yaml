@@ -13,3 +13,10 @@ repos:
         args: ['--fix=lf']
       - id: pretty-format-json
         args: ['--autofix']
+  - repo: local
+    hooks:
+      - id: run-make-all
+        name: Run make all
+        entry: make all
+        language: system
+        pass_filenames: false

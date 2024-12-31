@@ -1,0 +1,9 @@
+pullRequest:
+  filters:
+    sous-chefs-renovate:
+      owner: sous-chefs
+      type: org
+      summaryRegex:
+      raisedBy: renovate
+      labels:
+        - "type/renovate"

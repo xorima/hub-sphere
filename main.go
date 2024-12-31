@@ -21,7 +21,7 @@ THE SOFTWARE.
 */
 package main
 
-import "github-user/cmd"
+import "github.com/xorima/hub-sphere/cmd"
 
 func main() {
 	cmd.Execute()
