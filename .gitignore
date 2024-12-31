@@ -206,3 +206,5 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,linux,macos,goland+all,go,visualstudiocode
+hub-sphere
+hub-sphere.exe
