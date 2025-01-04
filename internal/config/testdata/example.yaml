@@ -7,3 +7,5 @@ pullRequest:
       raisedBy: renovate
       labels:
         - "type/renovate"
+      repositories: # Optional filter for specific repos in larger orgs where we do not care for everything...
+        - "hub-sphere"

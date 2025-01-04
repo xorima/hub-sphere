@@ -2,6 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "github>xorima/renovate-config//configs/base.json",
-    "github>xorima/renovate-config//configs/github-actions.json"
+    "github>xorima/renovate-config//configs/github-actions.json",
+    "github>xorima/renovate-config//configs/golang.json"
   ]
 }
