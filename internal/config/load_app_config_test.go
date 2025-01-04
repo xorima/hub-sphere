@@ -86,6 +86,7 @@ func TestLoadAppConfig(t *testing.T) {
 		assert.Contains(t, cfg.PullRequest.Filters[key].Labels, Label("type/renovate"))
 		assert.Equal(t, "renovate", cfg.PullRequest.Filters[key].RaisedBy)
 		assert.Equal(t, "sous-chefs", cfg.PullRequest.Filters[key].Owner)
+		assert.Contains(t, cfg.PullRequest.Filters[key].Repositories, Repository("hub-sphere"))
 	})
 	t.Run("it should allow passing in a custom viper", func(t *testing.T) {
 		cfg, err := LoadAppConfig("./testdata/example.yaml", WithViper(viper.New()))

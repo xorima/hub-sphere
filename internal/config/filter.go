@@ -12,11 +12,12 @@ var (
 )
 
 type Filter struct {
-	Owner             string    `yaml:"owner" mapstructure:"owner"`
-	OwnerType         OwnerType `yaml:"type" mapstructure:"type"`
-	RaisedBy          string    `yaml:"raisedBy" mapstructure:"raisedBy"`
-	Labels            []Label   `yaml:"labels" mapstructure:"labels"`
-	SummaryRegex      string    `yaml:"summaryRegex" mapstructure:"summaryRegex"`
+	Owner             string       `yaml:"owner" mapstructure:"owner"`
+	OwnerType         OwnerType    `yaml:"type" mapstructure:"type"`
+	RaisedBy          string       `yaml:"raisedBy" mapstructure:"raisedBy"`
+	Labels            []Label      `yaml:"labels" mapstructure:"labels"`
+	SummaryRegex      string       `yaml:"summaryRegex" mapstructure:"summaryRegex"`
+	Repositories      []Repository `yaml:"repositories" mapstructure:"repositories"`
 	summaryRegexCache *regexp.Regexp
 }
 
