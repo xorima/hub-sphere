@@ -13,6 +13,10 @@ repos:
         args: ['--fix=lf']
       - id: pretty-format-json
         args: ['--autofix']
+  - repo: https://github.com/trufflesecurity/trufflehog
+    rev: v3.88.0
+    hooks:
+      - id: trufflehog
   - repo: local
     hooks:
       - id: run-make-all
