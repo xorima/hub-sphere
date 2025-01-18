@@ -6,6 +6,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/xorima/slogger"
+
+	"github.com/xorima/hub-sphere/internal/model"
 )
 
 func TestNewGithubClient(t *testing.T) {
@@ -21,5 +23,7 @@ func TestNewGithubClient(t *testing.T) {
 		assert.ErrorIs(t, err, ErrNoGithubToken)
 		assert.Nil(t, client)
 	})
-
+	t.Run("it should implement the model.GithubClient interface", func(t *testing.T) {
+		assert.Implements(t, (*model.GithubClient)(nil), &GithubClient{})
+	})
 }

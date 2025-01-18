@@ -5,9 +5,9 @@ import (
 
 	"github.com/google/go-github/v68/github"
 	"github.com/hsbc/go-api-pagination/pagination"
-)
 
-type PullRequest = github.PullRequest
+	"github.com/xorima/hub-sphere/internal/model"
+)
 
 type listPullRequests struct {
 	owner  string
@@ -24,7 +24,7 @@ func (l *listPullRequests) Process(ctx context.Context, item *github.PullRequest
 	return nil
 }
 
-func (c *GithubClient) ListPullRequests(ctx context.Context, owner, repo string) ([]*PullRequest, error) {
+func (c *GithubClient) ListPullRequests(ctx context.Context, owner, repo string) ([]*model.PullRequest, error) {
 	o := &listPullRequests{owner: owner, repo: repo, client: c.client}
 	items, err := pagination.Paginator[*github.PullRequest](ctx, o, o, &rateLimitExit{}, &pagination.PaginatorOpts{
 		ListOptions: &github.ListOptions{PerPage: 50, Page: 1},
