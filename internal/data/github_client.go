@@ -8,14 +8,13 @@ import (
 	"os"
 
 	"github.com/google/go-github/v68/github"
+	"github.com/xorima/slogger"
 	"golang.org/x/oauth2"
 )
 
 const tokenEnvVar = "GITHUB_TOKEN"
 
 var ErrNoGithubToken = errors.New("the env var 'GITHUB_TOKEN' does not exist")
-
-type Repository = github.Repository
 
 type GithubClient struct {
 	client *github.Client
@@ -26,6 +25,7 @@ type GithubClientOpts struct {
 	envKey    string
 	transport http.RoundTripper
 }
+
 type OptsFunc func(o *GithubClientOpts)
 
 func newGithubClientOpts(log *slog.Logger) *GithubClientOpts {
@@ -64,6 +64,7 @@ func NewGithubClient(ctx context.Context, log *slog.Logger, clientOpts ...OptsFu
 	}
 	c, err := opts.getHttpClient()
 	if err != nil {
+		log.ErrorContext(ctx, "unable to get http client", slogger.ErrorAttr(err))
 		return nil, err
 	}
 	return &GithubClient{client: github.NewClient(c), log: log}, nil
