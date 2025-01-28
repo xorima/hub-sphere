@@ -1,9 +1,17 @@
 package cmd
 
 import (
+	"context"
 	"os"
 
 	"github.com/spf13/cobra"
+	"github.com/xorima/slogger"
+
+	"github.com/xorima/hub-sphere/internal/app"
+	"github.com/xorima/hub-sphere/internal/config"
+	"github.com/xorima/hub-sphere/internal/data"
+	"github.com/xorima/hub-sphere/internal/manager"
+	"github.com/xorima/hub-sphere/internal/output"
 )
 
 var cfgFile string
@@ -30,4 +38,14 @@ func init() {
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+}
+
+func getApp(useName string) *app.App {
+	log := slogger.NewLogger(slogger.NewLoggerOpts("hub-sphere", useName))
+	cfg, err := config.LoadAppConfig(cfgFile)
+	cobra.CheckErr(err)
+	client, err := data.NewGithubClient(context.Background(), log)
+	cobra.CheckErr(err)
+	mgr := manager.NewGithubManager(log, client)
+	return app.NewApp(log, cfg, mgr, output.NewConsoleOutput())
 }
