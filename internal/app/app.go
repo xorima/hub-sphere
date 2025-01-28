@@ -22,6 +22,23 @@ func NewApp(log *slog.Logger, cfg *config.HubSphere, mgr model.GithubManager, ou
 	return &App{log: log, config: cfg, mgr: mgr, output: outputter}
 }
 
+func (a *App) AvailableFilters() error {
+	var entries = make(model.Entries)
+	for key, filter := range a.config.PullRequest.Filters {
+		var info []string
+		info = append(info, fmt.Sprintf("owner: '%s'", filter.Owner))
+		info = append(info, fmt.Sprintf("owner type: '%s'", filter.OwnerType))
+		info = append(info, fmt.Sprintf("raised by: '%s'", filter.RaisedBy))
+		info = append(info, "labels required:")
+		for _, l := range filter.Labels {
+			info = append(info, fmt.Sprintf("\t - '%s'", string(l)))
+		}
+		info = append(info, fmt.Sprintf("summary regex match: '%s'", filter.SummaryRegex))
+		entries[key] = info
+	}
+	return a.output.Write(entries)
+}
+
 func (a *App) OpenPullRequests(ctx context.Context) error {
 	repos, err := a.mgr.OpenPullRequests(ctx, "sous-chefs")
 	if err != nil {

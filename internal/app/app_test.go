@@ -99,3 +99,45 @@ func TestAppOpenPullRequests(t *testing.T) {
 		assert.Len(t, outputter.entries, 1)
 	})
 }
+
+func TestAppAvailableFilters(t *testing.T) {
+	t.Run("it should return an error if the outputter returns an error", func(t *testing.T) {
+		cfg := &config.HubSphere{
+			PullRequest: config.PullRequest{
+				Filters: map[string]config.Filter{
+					"test-filter": {
+						Owner:        "test-owner",
+						OwnerType:    config.OwnerType(config.OwnerTypeUser),
+						RaisedBy:     "test-raiser",
+						Labels:       []config.Label{"bug", "enhancement"},
+						SummaryRegex: ".*",
+					},
+				},
+			},
+		}
+		a := NewApp(slogger.NewDevNullLogger(), cfg, &mockManager{}, &mockOutputter{err: assert.AnError})
+		err := a.AvailableFilters()
+		assert.ErrorIs(t, err, assert.AnError)
+	})
+	t.Run("it should run without error", func(t *testing.T) {
+		cfg := &config.HubSphere{
+			PullRequest: config.PullRequest{
+				Filters: map[string]config.Filter{
+					"my-important-filter": {
+						Owner:        "xorima",
+						OwnerType:    config.OwnerType(config.OwnerTypeUser),
+						RaisedBy:     "renovate",
+						Labels:       []config.Label{"bug", "enhancement"},
+						SummaryRegex: ".*",
+					},
+				},
+			},
+		}
+		outputter := &mockOutputter{}
+		a := NewApp(slogger.NewDevNullLogger(), cfg, &mockManager{}, outputter)
+		err := a.AvailableFilters()
+		assert.NoError(t, err)
+		assert.Len(t, outputter.entries, 1)
+		assert.Len(t, outputter.entries["my-important-filter"], 7)
+	})
+}
