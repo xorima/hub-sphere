@@ -24,10 +24,17 @@ func (l *listPullRequests) Process(ctx context.Context, item *github.PullRequest
 	return nil
 }
 
-func (c *GithubClient) ListPullRequests(ctx context.Context, owner, repo string) ([]*model.PullRequest, error) {
+func (c *GithubClient) ListPullRequests(ctx context.Context, owner, repo string) ([]model.PullRequest, error) {
 	o := &listPullRequests{owner: owner, repo: repo, client: c.client}
 	items, err := pagination.Paginator[*github.PullRequest](ctx, o, o, &rateLimitExit{}, &pagination.PaginatorOpts{
 		ListOptions: &github.ListOptions{PerPage: 50, Page: 1},
 	})
-	return items, err
+	if err != nil {
+		return nil, err
+	}
+	var result []model.PullRequest
+	for _, item := range items {
+		result = append(result, item)
+	}
+	return result, nil
 }

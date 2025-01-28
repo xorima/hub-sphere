@@ -2,14 +2,18 @@ package model
 
 import (
 	"context"
-
-	"github.com/google/go-github/v68/github"
 )
 
-type Repository = github.Repository
-type PullRequest = github.PullRequest
+type PullRequest interface {
+	GetTitle() string
+	GetHTMLURL() string
+}
+
+type Repository interface {
+	GetName() string
+}
 
 type GithubClient interface {
-	ListPullRequests(ctx context.Context, owner, repo string) ([]*PullRequest, error)
-	ListRepositoriesByOrg(ctx context.Context, owner string) ([]*Repository, error)
+	ListPullRequests(ctx context.Context, owner, repo string) ([]PullRequest, error)
+	ListRepositoriesByOrg(ctx context.Context, owner string) ([]Repository, error)
 }

@@ -10,6 +10,7 @@ import (
 	"github.com/xorima/hub-sphere/internal/config"
 	"github.com/xorima/hub-sphere/internal/data"
 	"github.com/xorima/hub-sphere/internal/manager"
+	"github.com/xorima/hub-sphere/internal/output"
 )
 
 // prCmd represents the pr command
@@ -25,8 +26,8 @@ var prListCmd = &cobra.Command{
 		client, err := data.NewGithubClient(context.Background(), log)
 		cobra.CheckErr(err)
 		mgr := manager.NewGithubManager(log, client)
-		a := app.NewApp(log, cfg, mgr)
-		a.OpenPullRequests()
+		a := app.NewApp(log, cfg, mgr, output.NewConsoleOutput())
+		cobra.CheckErr(a.OpenPullRequests(context.Background()))
 	},
 }
 

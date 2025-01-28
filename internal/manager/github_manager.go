@@ -7,33 +7,29 @@ import (
 	"github.com/xorima/slogger"
 
 	"github.com/xorima/hub-sphere/internal/model"
+	"github.com/xorima/hub-sphere/internal/output"
 )
 
 type GithubManager struct {
-	log    *slog.Logger
-	client model.GithubClient
+	log       *slog.Logger
+	client    model.GithubClient
+	outputter model.Outputter
 }
 
 func NewGithubManager(log *slog.Logger, client model.GithubClient) *GithubManager {
-	return &GithubManager{log: log, client: client}
+	return &GithubManager{log: log, client: client, outputter: output.NewConsoleOutput()}
 }
 
-type RepositoryPR struct {
-	RepoName string
-	Pr       []*model.PullRequest
-}
-
-func (m *GithubManager) OpenPullRequests(ctx context.Context, owner string) ([]RepositoryPR, error) {
+func (m *GithubManager) OpenPullRequests(ctx context.Context, owner string) ([]model.RepositoryPR, error) {
 	repositories, err := m.client.ListRepositoriesByOrg(ctx, owner)
 	if err != nil {
 		m.log.Error("get by org error", slogger.ErrorAttr(err), slog.String("owner", owner))
 		return nil, err
 	}
-	var resp []RepositoryPR
+	var resp []model.RepositoryPR
 	for _, r := range repositories {
-		var tmp = RepositoryPR{
+		var tmp = model.RepositoryPR{
 			RepoName: r.GetName(),
-			Pr:       make([]*model.PullRequest, 0),
 		}
 		prs, err := m.client.ListPullRequests(ctx, owner, r.GetName())
 		if err != nil {

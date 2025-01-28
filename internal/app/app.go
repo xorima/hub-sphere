@@ -5,37 +5,45 @@ import (
 	"fmt"
 	"log/slog"
 
+	"github.com/xorima/slogger"
+
 	"github.com/xorima/hub-sphere/internal/config"
-	"github.com/xorima/hub-sphere/internal/manager"
+	"github.com/xorima/hub-sphere/internal/model"
 )
 
 type App struct {
 	config *config.HubSphere
 	log    *slog.Logger
-	mgr    *manager.GithubManager
+	mgr    model.GithubManager
+	output model.Outputter
 }
 
-func NewApp(log *slog.Logger, cfg *config.HubSphere, mgr *manager.GithubManager) *App {
-	return &App{log: log, config: cfg, mgr: mgr}
+func NewApp(log *slog.Logger, cfg *config.HubSphere, mgr model.GithubManager, outputter model.Outputter) *App {
+	return &App{log: log, config: cfg, mgr: mgr, output: outputter}
 }
 
-func (a *App) OpenPullRequests() {
-	// make this more efficient by having mgr pass in the processor so we can live process each object
-	// and have app pass in a formatter so it can own how they are outputted keeping separation of concerns.
-	// once this is done we need to add in filtering
-	// and tests, unit test everything... + interfaces to make testing possible...
-	repos, err := a.mgr.OpenPullRequests(context.Background(), "sous-chefs")
+func (a *App) OpenPullRequests(ctx context.Context) error {
+	repos, err := a.mgr.OpenPullRequests(ctx, "sous-chefs")
 	if err != nil {
-		a.log.Error("error occurred, exiting")
-		return
+		a.log.ErrorContext(ctx, "error occurred, exiting", slogger.ErrorAttr(err))
+		return err
 	}
+	var entries = make(model.Entries)
 	for _, repo := range repos {
 		if len(repo.Pr) == 0 {
 			continue
 		}
-		fmt.Printf("%s: PRs\n", repo.RepoName)
+		repoName := fmt.Sprintf("%s PRs", repo.RepoName)
 		for _, pr := range repo.Pr {
-			fmt.Printf("\t - %s : %s\n", pr.GetTitle(), pr.GetHTMLURL())
+			entries[repoName] = append(entries[repoName], fmt.Sprintf("- %s : %s", pr.GetTitle(), pr.GetHTMLURL()))
 		}
 	}
+	if len(entries) > 0 {
+		err = a.output.Write(entries)
+		if err != nil {
+			a.log.ErrorContext(ctx, "failed to write output", slogger.ErrorAttr(err))
+			return err
+		}
+	}
+	return nil
 }
