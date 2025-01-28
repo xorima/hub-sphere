@@ -1,0 +1,13 @@
+profile: cover.out
+local-prefix: "github.com/xorima/hub-sphere"
+
+threshold:
+  file: 100
+  package: 100
+  total: 100
+
+exclude:
+  paths:
+    # we do not expect code coverage in the cmd package as this is entry points
+    - ^cmd
+    - ^main.go$

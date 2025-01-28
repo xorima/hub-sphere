@@ -23,10 +23,17 @@ func (l *listReposByOrg) Process(ctx context.Context, item *github.Repository) e
 	return nil
 }
 
-func (c *GithubClient) ListRepositoriesByOrg(ctx context.Context, owner string) ([]*model.Repository, error) {
+func (c *GithubClient) ListRepositoriesByOrg(ctx context.Context, owner string) ([]model.Repository, error) {
 	o := &listReposByOrg{owner: owner, client: c.client}
 	items, err := pagination.Paginator[*github.Repository](ctx, o, o, &rateLimitExit{}, &pagination.PaginatorOpts{
 		ListOptions: &github.ListOptions{PerPage: 50, Page: 1},
 	})
-	return items, err
+	if err != nil {
+		return nil, err
+	}
+	var result []model.Repository
+	for _, item := range items {
+		result = append(result, item)
+	}
+	return result, nil
 }
