@@ -10,8 +10,8 @@ pullRequest:
       repositories: # Optional filter for specific repos in larger orgs where we do not care for everything...
         - "hub-sphere"
 webhooks:
-    filters:
-        sous-chefs-renovate:
-            owner: sous-chefs
-            type: org
-            urlRegex: ''
+  filters:
+    sous-chefs-renovate:
+      owner: sous-chefs
+      type: org
+      urlRegex: ''

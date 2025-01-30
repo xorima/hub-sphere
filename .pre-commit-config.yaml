@@ -19,8 +19,23 @@ repos:
       - id: trufflehog
   - repo: local
     hooks:
-      - id: run-make-all
-        name: Run make all
-        entry: make all
+      - id: run-make-fmt
+        name: Run make fmt
+        entry: make fmt
+        language: system
+        pass_filenames: false
+      - id: run-make-build
+        name: Run make build
+        entry: make build
+        language: system
+        pass_filenames: false
+      - id: run-make-lint
+        name: Run make lint
+        entry: make lint
+        language: system
+        pass_filenames: false
+      - id: run-make-test
+        name: Run make test
+        entry: make test
         language: system
         pass_filenames: false
