@@ -3,9 +3,15 @@ pullRequest:
     sous-chefs-renovate:
       owner: sous-chefs
       type: org
-      summaryRegex:
-      raisedBy: renovate
-      labels:
+      summaryRegex: # Optional filter for specific summary in the regex
+      raisedBy: renovate # Optional filter for specific user who raised the PR
+      labels: # Optional filter for specific labels on the pull requests
         - "type/renovate"
       repositories: # Optional filter for specific repos in larger orgs where we do not care for everything...
         - "hub-sphere"
+webhooks:
+    filters:
+        sous-chefs-renovate:
+            owner: sous-chefs
+            type: org
+            urlRegex: ''

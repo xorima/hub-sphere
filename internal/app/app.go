@@ -40,7 +40,7 @@ func (a *App) AvailableFilters() error {
 }
 
 func (a *App) OpenPullRequests(ctx context.Context) error {
-	repos, err := a.mgr.OpenPullRequests(ctx, "sous-chefs")
+	repos, err := a.mgr.OpenPullRequests(ctx, a.config.PullRequest.Filters["sous-chefs-renovate"])
 	if err != nil {
 		a.log.ErrorContext(ctx, "error occurred, exiting", slogger.ErrorAttr(err))
 		return err

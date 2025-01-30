@@ -2,6 +2,8 @@ package model
 
 import (
 	"context"
+
+	"github.com/xorima/hub-sphere/internal/config"
 )
 
 type RepositoryPR struct {
@@ -10,5 +12,5 @@ type RepositoryPR struct {
 }
 
 type GithubManager interface {
-	OpenPullRequests(ctx context.Context, owner string) ([]RepositoryPR, error)
+	OpenPullRequests(ctx context.Context, filter config.Filter) ([]RepositoryPR, error)
 }

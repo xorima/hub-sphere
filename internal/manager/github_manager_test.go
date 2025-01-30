@@ -4,9 +4,12 @@ import (
 	"context"
 	"testing"
 
+	"github.com/google/go-github/v68/github"
 	"github.com/stretchr/testify/assert"
 	"github.com/xorima/slogger"
 
+	"github.com/xorima/hub-sphere/internal/config"
+	"github.com/xorima/hub-sphere/internal/data/paginator"
 	"github.com/xorima/hub-sphere/internal/model"
 	"github.com/xorima/hub-sphere/internal/model/modelmocks"
 )
@@ -30,11 +33,11 @@ func newMockGithubClient() *mockGithubClient {
 	}
 }
 
-func (m *mockGithubClient) ListRepositoriesByOrg(ctx context.Context, owner string) ([]model.Repository, error) {
+func (m *mockGithubClient) ListRepositoriesByOrg(ctx context.Context, owner string, process paginator.Process[*github.Repository]) ([]model.Repository, error) {
 	return m.repositories, m.repositoriesErr
 }
 
-func (m *mockGithubClient) ListPullRequests(ctx context.Context, owner, repo string) ([]model.PullRequest, error) {
+func (m *mockGithubClient) ListPullRequests(ctx context.Context, owner, repo string, process paginator.Process[*github.PullRequest]) ([]model.PullRequest, error) {
 	return m.pullRequests, m.pullRequestsErr
 }
 
@@ -50,14 +53,14 @@ func TestGithubManagerOpenPullRequests(t *testing.T) {
 		c := newMockGithubClient()
 		c.repositoriesErr = assert.AnError
 		mgr := NewGithubManager(slogger.NewDevNullLogger(), c)
-		res, err := mgr.OpenPullRequests(context.Background(), ownerForTest)
+		res, err := mgr.OpenPullRequests(context.Background(), config.Filter{Owner: ownerForTest})
 		assert.ErrorIs(t, err, assert.AnError)
 		assert.Nil(t, res)
 	})
 	t.Run("it should return nothing if no repositories are found", func(t *testing.T) {
 		c := newMockGithubClient()
 		mgr := NewGithubManager(slogger.NewDevNullLogger(), c)
-		res, err := mgr.OpenPullRequests(context.Background(), ownerForTest)
+		res, err := mgr.OpenPullRequests(context.Background(), config.Filter{Owner: ownerForTest})
 		assert.NoError(t, err)
 		assert.Nil(t, res)
 	})
@@ -66,7 +69,7 @@ func TestGithubManagerOpenPullRequests(t *testing.T) {
 		c.repositories = append(c.repositories, modelmocks.NewMockRepository(repoForTest))
 		c.pullRequestsErr = assert.AnError
 		mgr := NewGithubManager(slogger.NewDevNullLogger(), c)
-		res, err := mgr.OpenPullRequests(context.Background(), ownerForTest)
+		res, err := mgr.OpenPullRequests(context.Background(), config.Filter{Owner: ownerForTest})
 		assert.ErrorIs(t, err, assert.AnError)
 		assert.Nil(t, res)
 	})
@@ -76,7 +79,7 @@ func TestGithubManagerOpenPullRequests(t *testing.T) {
 		wantTitle := "chore(deps): update foo"
 		c.pullRequests = append(c.pullRequests, modelmocks.NewMockPullRequest(wantTitle, "https://github.com"))
 		mgr := NewGithubManager(slogger.NewDevNullLogger(), c)
-		res, err := mgr.OpenPullRequests(context.Background(), ownerForTest)
+		res, err := mgr.OpenPullRequests(context.Background(), config.Filter{Owner: ownerForTest})
 		assert.NoError(t, err)
 		assert.NotNil(t, res)
 		assert.Len(t, res, 1)
