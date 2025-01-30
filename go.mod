@@ -4,7 +4,6 @@ go 1.23
 
 require (
 	github.com/google/go-github/v68 v68.0.0
-	github.com/hsbc/go-api-pagination v1.8.1
 	github.com/mitchellh/mapstructure v1.5.0
 	github.com/spf13/cobra v1.8.1
 	github.com/spf13/viper v1.19.0

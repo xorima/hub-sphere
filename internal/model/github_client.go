@@ -2,6 +2,10 @@ package model
 
 import (
 	"context"
+
+	"github.com/google/go-github/v68/github"
+
+	"github.com/xorima/hub-sphere/internal/data/paginator"
 )
 
 type PullRequest interface {
@@ -14,6 +18,6 @@ type Repository interface {
 }
 
 type GithubClient interface {
-	ListPullRequests(ctx context.Context, owner, repo string) ([]PullRequest, error)
-	ListRepositoriesByOrg(ctx context.Context, owner string) ([]Repository, error)
+	ListPullRequests(ctx context.Context, owner, repo string, processFunc paginator.Process[*github.PullRequest]) ([]PullRequest, error)
+	ListRepositoriesByOrg(ctx context.Context, owner string, processFunc paginator.Process[*github.Repository]) ([]Repository, error)
 }

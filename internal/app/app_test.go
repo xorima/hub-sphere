@@ -22,7 +22,7 @@ type mockManager struct {
 	err error
 }
 
-func (m mockManager) OpenPullRequests(ctx context.Context, owner string) ([]model.RepositoryPR, error) {
+func (m mockManager) OpenPullRequests(ctx context.Context, filter config.Filter) ([]model.RepositoryPR, error) {
 	return m.pr, m.err
 }
 

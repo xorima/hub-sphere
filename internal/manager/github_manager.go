@@ -4,8 +4,11 @@ import (
 	"context"
 	"log/slog"
 
+	"github.com/google/go-github/v68/github"
 	"github.com/xorima/slogger"
 
+	"github.com/xorima/hub-sphere/internal/config"
+	"github.com/xorima/hub-sphere/internal/data"
 	"github.com/xorima/hub-sphere/internal/model"
 	"github.com/xorima/hub-sphere/internal/output"
 )
@@ -20,10 +23,10 @@ func NewGithubManager(log *slog.Logger, client model.GithubClient) *GithubManage
 	return &GithubManager{log: log, client: client, outputter: output.NewConsoleOutput()}
 }
 
-func (m *GithubManager) OpenPullRequests(ctx context.Context, owner string) ([]model.RepositoryPR, error) {
-	repositories, err := m.client.ListRepositoriesByOrg(ctx, owner)
+func (m *GithubManager) OpenPullRequests(ctx context.Context, filter config.Filter) ([]model.RepositoryPR, error) {
+	repositories, err := m.client.ListRepositoriesByOrg(ctx, filter.Owner, data.ProcessDoNothing[*github.Repository]())
 	if err != nil {
-		m.log.Error("get by org error", slogger.ErrorAttr(err), slog.String("owner", owner))
+		m.log.Error("get by org error", slogger.ErrorAttr(err), slog.String("owner", filter.Owner))
 		return nil, err
 	}
 	var resp []model.RepositoryPR
@@ -31,12 +34,11 @@ func (m *GithubManager) OpenPullRequests(ctx context.Context, owner string) ([]m
 		var tmp = model.RepositoryPR{
 			RepoName: r.GetName(),
 		}
-		prs, err := m.client.ListPullRequests(ctx, owner, r.GetName())
+		prs, err := m.client.ListPullRequests(ctx, filter.Owner, r.GetName(), data.ProcessDoNothing[*github.PullRequest]())
 		if err != nil {
-			m.log.Error("list prs error", slogger.ErrorAttr(err), slog.String("owner", owner), slog.String("repo", r.GetName()))
+			m.log.Error("list prs error", slogger.ErrorAttr(err), slog.String("owner", filter.Owner), slog.String("repo", r.GetName()))
 			return resp, err
 		}
-
 		tmp.Pr = append(tmp.Pr, prs...)
 		resp = append(resp, tmp)
 	}
