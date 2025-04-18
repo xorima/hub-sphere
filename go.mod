@@ -7,7 +7,6 @@ toolchain go1.24.1
 require (
 	github.com/google/go-github/v68 v68.0.0
 	github.com/google/go-github/v71 v71.0.0
-	github.com/google/go-github/v71 v71.0.0
 	github.com/mitchellh/mapstructure v1.5.0
 	github.com/spf13/cobra v1.9.1
 	github.com/spf13/viper v1.19.0
