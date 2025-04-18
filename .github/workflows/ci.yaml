@@ -22,7 +22,7 @@ jobs:
         run: go test ./... -coverprofile=./cover.out -covermode=atomic -coverpkg=./...
 
       - name: check test coverage
-        uses: vladopajic/go-test-coverage@a2cbf1fbcac20b3a5d09badb628331fa7bded52c # v2
+        uses: vladopajic/go-test-coverage@937b863f06595080198d555b7ed3aa474ae5199c # v2
         with:
           config: ./.testcoverage.yml
 
