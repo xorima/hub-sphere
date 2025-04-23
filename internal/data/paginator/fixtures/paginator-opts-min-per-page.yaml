@@ -18,7 +18,7 @@ interactions:
             Accept:
                 - application/vnd.github.v3+json
             User-Agent:
-                - go-github/v68.0.0
+                - go-github/v71.0.0
             X-Github-Api-Version:
                 - "2022-11-28"
         url: https://api.github.com/user/repos?page=1&per_page=100&visibility=public
@@ -103,7 +103,7 @@ interactions:
             Accept:
                 - application/vnd.github.v3+json
             User-Agent:
-                - go-github/v68.0.0
+                - go-github/v71.0.0
             X-Github-Api-Version:
                 - "2022-11-28"
         url: https://api.github.com/user/repos?page=2&per_page=100&visibility=public
@@ -188,7 +188,7 @@ interactions:
             Accept:
                 - application/vnd.github.v3+json
             User-Agent:
-                - go-github/v68.0.0
+                - go-github/v71.0.0
             X-Github-Api-Version:
                 - "2022-11-28"
         url: https://api.github.com/user/repos?page=3&per_page=100&visibility=public
@@ -273,7 +273,7 @@ interactions:
             Accept:
                 - application/vnd.github.v3+json
             User-Agent:
-                - go-github/v68.0.0
+                - go-github/v71.0.0
             X-Github-Api-Version:
                 - "2022-11-28"
         url: https://api.github.com/user/repos?page=4&per_page=100&visibility=public
