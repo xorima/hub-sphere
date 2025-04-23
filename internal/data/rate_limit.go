@@ -3,7 +3,7 @@ package data
 import (
 	"context"
 
-	"github.com/google/go-github/v68/github"
+	"github.com/google/go-github/v71/github"
 )
 
 var rateLimitExit = func(ctx context.Context, resp *github.Response) (bool, error) {

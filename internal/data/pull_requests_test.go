@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/google/go-github/v68/github"
+	"github.com/google/go-github/v71/github"
 	"github.com/stretchr/testify/assert"
 	"github.com/xorima/slogger"
 	"gopkg.in/dnaeon/go-vcr.v4/pkg/recorder"

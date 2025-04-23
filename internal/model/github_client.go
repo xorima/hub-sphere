@@ -3,7 +3,7 @@ package model
 import (
 	"context"
 
-	"github.com/google/go-github/v68/github"
+	"github.com/google/go-github/v71/github"
 
 	"github.com/xorima/hub-sphere/internal/data/paginator"
 )
