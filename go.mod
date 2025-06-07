@@ -2,7 +2,7 @@ module github.com/xorima/hub-sphere
 
 go 1.24.0
 
-toolchain go1.24.3
+toolchain go1.24.4
 
 require (
 	github.com/go-viper/mapstructure/v2 v2.2.1
