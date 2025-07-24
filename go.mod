@@ -2,10 +2,10 @@ module github.com/xorima/hub-sphere
 
 go 1.24.0
 
-toolchain go1.24.4
+toolchain go1.24.5
 
 require (
-	github.com/go-viper/mapstructure/v2 v2.3.0
+	github.com/go-viper/mapstructure/v2 v2.4.0
 	github.com/google/go-github/v71 v71.0.0
 	github.com/google/go-github/v74 v74.0.0
 	github.com/spf13/cobra v1.9.1
@@ -13,7 +13,7 @@ require (
 	github.com/stretchr/testify v1.10.0
 	github.com/xorima/slogger v1.0.0
 	golang.org/x/oauth2 v0.30.0
-	gopkg.in/dnaeon/go-vcr.v4 v4.0.3
+	gopkg.in/dnaeon/go-vcr.v4 v4.0.4
 	gopkg.in/yaml.v3 v3.0.1
 )
 
