@@ -7,7 +7,7 @@ toolchain go1.24.4
 require (
 	github.com/go-viper/mapstructure/v2 v2.3.0
 	github.com/google/go-github/v71 v71.0.0
-	github.com/google/go-github/v76 v76.0.0
+	github.com/google/go-github/v77 v77.0.0
 	github.com/google/go-github/v77 v77.0.0
 	github.com/spf13/cobra v1.9.1
 	github.com/spf13/viper v1.20.1
