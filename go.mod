@@ -8,7 +8,6 @@ require (
 	github.com/go-viper/mapstructure/v2 v2.3.0
 	github.com/google/go-github/v71 v71.0.0
 	github.com/google/go-github/v82 v82.0.0
-	github.com/google/go-github/v82 v82.0.0
 	github.com/spf13/cobra v1.9.1
 	github.com/spf13/viper v1.20.1
 	github.com/stretchr/testify v1.10.0
