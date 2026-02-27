@@ -1,14 +1,11 @@
 module github.com/xorima/hub-sphere
 
-go 1.24.0
-
-toolchain go1.24.4
+go 1.25.0
 
 require (
 	github.com/go-viper/mapstructure/v2 v2.3.0
 	github.com/google/go-github/v71 v71.0.0
-	github.com/google/go-github/v83 v83.0.0
-	github.com/google/go-github/v83 v83.0.0
+	github.com/google/go-github/v84 v84.0.0
 	github.com/spf13/cobra v1.9.1
 	github.com/spf13/viper v1.20.1
 	github.com/stretchr/testify v1.10.0
