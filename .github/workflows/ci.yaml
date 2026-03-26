@@ -46,7 +46,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - name: Run yaml Lint
-        uses: actionshub/yamllint@main
+        uses: actionshub/yamllint@184f72d121829c82b16569eccceb713b2c19d89d # main
 
   markdownlint-cli2:
     runs-on: ubuntu-latest
@@ -77,6 +77,6 @@ jobs:
         with:
           fetch-depth: 0
       - name: Secret Scanning
-        uses: trufflesecurity/trufflehog@main
+        uses: trufflesecurity/trufflehog@586f66d7886cd0b037c7c245d4a6e34ef357ab10 # main
         with:
           extra_args: --results=verified,unknown
