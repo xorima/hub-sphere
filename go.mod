@@ -4,7 +4,7 @@ go 1.26.0
 
 require (
 	github.com/go-viper/mapstructure/v2 v2.3.0
-	github.com/google/go-github/v71 v71.0.0
+	github.com/google/go-github/v93 v93.0.0
 	github.com/google/go-github/v93 v93.0.0
 	github.com/spf13/cobra v1.9.1
 	github.com/spf13/viper v1.20.1
